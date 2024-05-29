@@ -127,6 +127,8 @@ const options = {
     ],
   },
   apis: ["./api/index.ts"],
+  customCssUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.4.2/swagger-ui.css",
 };
 const specs = swaggerjsdoc(options);
 app.use("/api-docs", swaggerui.serve, swaggerui.setup(specs));
