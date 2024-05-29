@@ -17,19 +17,6 @@ app.get("/", async (req: Request, res: Response) => {
     })
     .then((response: any) => {
       //   remove the first two index because it's only label, not the data
-      if (city) {
-        return response.data.values?.slice(2).map((col: any[]) => {
-          if (col[3].toLowerCase().includes(city.toLowerCase())) {
-            return {
-              event_date: col[0],
-              event_name: col[4],
-              event_city: col[3],
-              event_location: col[2],
-              event_info_link: col[6],
-            };
-          }
-        });
-      }
       return response.data.values?.slice(2).map((col: any[]) => {
         return {
           event_date: col[0],
@@ -40,7 +27,15 @@ app.get("/", async (req: Request, res: Response) => {
         };
       });
     });
-  res.status(200).send(eventList);
+  res
+    .status(200)
+    .send(
+      city
+        ? eventList.filter((event: any) =>
+            event.event_city.toLowerCase().includes(city.toLocaleLowerCase())
+          )
+        : eventList
+    );
 });
 
 app.get("/cities", async (req: Request, res: Response) => {
