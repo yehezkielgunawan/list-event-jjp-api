@@ -47,7 +47,7 @@ const sheet = google.sheets({ version: "v4", auth: process.env.KEY });
  *                 event_location: "Central Park"
  *                 event_info_link: "http://example.com"
  */
-app.get("/list-events", async (req: Request, res: Response) => {
+app.get("/", async (req: Request, res: Response) => {
   // recieve query param named city
   const city = req.query.city as string;
   const eventList = await sheet.spreadsheets.values
@@ -128,8 +128,8 @@ const options = {
   },
   apis: ["./api/index.ts"],
 };
-const spacs = swaggerjsdoc(options);
-app.use("/", swaggerui.serve, swaggerui.setup(spacs));
+const specs = swaggerjsdoc(options);
+app.use("/api-docs", swaggerui.serve, swaggerui.setup(specs));
 
 app.listen(port, () => {
   console.log(`Server is running now!`);
