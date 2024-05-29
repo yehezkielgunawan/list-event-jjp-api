@@ -15,7 +15,7 @@
     "gaxios": "^6.6.0",
     "googleapis": "^137.1.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^3.0.10"
+    "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

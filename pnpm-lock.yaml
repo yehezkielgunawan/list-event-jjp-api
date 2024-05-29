@@ -21,8 +21,8 @@ dependencies:
     specifier: ^6.2.8
     version: 6.2.8(openapi-types@12.1.3)
   swagger-ui-express:
-    specifier: ^3.0.10
-    version: 3.0.10
+    specifier: ^4.5.0
+    version: 4.5.0(express@4.19.2)
 
 devDependencies:
   '@types/express':
@@ -1126,9 +1126,18 @@ packages:
       - openapi-types
     dev: false
 
-  /swagger-ui-express@3.0.10:
-    resolution: {integrity: sha512-vP0sHXTm8w0kwpy4z9tBe1sTOyIc807PvkBNrfBPMieeRrl3NbjUnz7KgOygkzmz4QBhd4fo3efFKcwR42vcjQ==}
+  /swagger-ui-dist@5.17.14:
+    resolution: {integrity: sha512-CVbSfaLpstV65OnSjbXfVd6Sta3q3F7Cj/yYuvHMp1P90LztOLs6PfUnKEVAeiIVQt9u2SaPwv0LiH/OyMjHRw==}
+    dev: false
+
+  /swagger-ui-express@4.5.0(express@4.19.2):
+    resolution: {integrity: sha512-DHk3zFvsxrkcnurGvQlAcLuTDacAVN1JHKDgcba/gr2NFRE4HGwP1YeHIXMiGznkWR4AeS7X5vEblNn4QljuNA==}
     engines: {node: '>= v0.10.32'}
+    peerDependencies:
+      express: '>=4.0.0'
+    dependencies:
+      express: 4.19.2
+      swagger-ui-dist: 5.17.14
     dev: false
 
   /to-regex-range@5.0.1:

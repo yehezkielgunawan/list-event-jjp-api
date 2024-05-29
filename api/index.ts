@@ -19,7 +19,7 @@ const sheet = google.sheets({ version: "v4", auth: process.env.KEY });
  *         name: city
  *         schema:
  *           type: string
- *         description: The city to filter events by
+ *         description: The city to filter events by city name
  *     responses:
  *       200:
  *         description: The list of events
@@ -127,8 +127,6 @@ const options = {
     ],
   },
   apis: ["./api/index.ts"],
-  customCssUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.4.2/swagger-ui.css",
 };
 const specs = swaggerjsdoc(options);
 app.use("/", swaggerui.serve, swaggerui.setup(specs));
