@@ -11,9 +11,6 @@ dependencies:
   express:
     specifier: ^4.19.2
     version: 4.19.2
-  gaxios:
-    specifier: ^6.6.0
-    version: 6.6.0
   googleapis:
     specifier: ^137.1.0
     version: 137.1.0
