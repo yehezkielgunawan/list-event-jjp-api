@@ -45,33 +45,155 @@ app.get("/", async (req: Request, res: Response) => {
 
 			// Filter by month if provided
 			let monthMatch = true;
-			if (month) {
-				// Convert month parameter to standard format for comparison
-				const monthNames = [
-					"jan",
-					"feb",
-					"mar",
-					"apr",
-					"may",
-					"jun",
-					"jul",
-					"aug",
-					"sep",
-					"oct",
-					"nov",
-					"dec",
-				];
+			if (month && event.event_date) {
+				try {
+					// Parse the event date (assuming format like "21 Mar 2025" or Indonesian format)
+					const dateParts = event.event_date.split(" ");
+					if (dateParts.length >= 2) {
+						// Indonesian month names (full and abbreviated)
+						const indonesianMonthNames = [
+							"januari",
+							"februari",
+							"maret",
+							"april",
+							"mei",
+							"juni",
+							"juli",
+							"agustus",
+							"september",
+							"oktober",
+							"november",
+							"desember",
+						];
 
-				// Get month abbreviation from event_date (assuming format like "21 Mar 2025")
-				const eventMonthStr = event.event_date?.split(" ")[1]?.toLowerCase();
+						const indonesianShortMonthNames = [
+							"jan",
+							"feb",
+							"mar",
+							"apr",
+							"mei",
+							"jun",
+							"jul",
+							"agu",
+							"sep",
+							"okt",
+							"nov",
+							"des",
+						];
 
-				// Compare with case insensitivity and support for partial matches
-				monthMatch = monthNames.some(
-					(m) =>
-						(m.includes(month.toLowerCase()) ||
-							month.toLowerCase()?.includes(m)) &&
-						eventMonthStr?.includes(m),
-				);
+						// English month names (for compatibility)
+						const englishMonthNames = [
+							"january",
+							"february",
+							"march",
+							"april",
+							"may",
+							"june",
+							"july",
+							"august",
+							"september",
+							"october",
+							"november",
+							"december",
+						];
+
+						const englishShortMonthNames = [
+							"jan",
+							"feb",
+							"mar",
+							"apr",
+							"may",
+							"jun",
+							"jul",
+							"aug",
+							"sep",
+							"oct",
+							"nov",
+							"dec",
+						];
+
+						// Get month index from event date
+						const eventMonthStr = dateParts[1].toLowerCase();
+						let eventMonth = -1;
+
+						// Try to match with Indonesian month names
+						const indoMonthIndex = indonesianMonthNames.findIndex(
+							(m) => eventMonthStr.includes(m) || m.includes(eventMonthStr),
+						);
+
+						if (indoMonthIndex !== -1) {
+							eventMonth = indoMonthIndex;
+						} else {
+							// Try with Indonesian short month names
+							const indoShortMonthIndex = indonesianShortMonthNames.findIndex(
+								(m) => eventMonthStr.includes(m) || m.includes(eventMonthStr),
+							);
+
+							if (indoShortMonthIndex !== -1) {
+								eventMonth = indoShortMonthIndex;
+							} else {
+								// Fallback to English month names
+								const engMonthIndex = englishMonthNames.findIndex(
+									(m) => eventMonthStr.includes(m) || m.includes(eventMonthStr),
+								);
+
+								if (engMonthIndex !== -1) {
+									eventMonth = engMonthIndex;
+								} else {
+									// Try with English short month names
+									const engShortMonthIndex = englishShortMonthNames.findIndex(
+										(m) =>
+											eventMonthStr.includes(m) || m.includes(eventMonthStr),
+									);
+
+									if (engShortMonthIndex !== -1) {
+										eventMonth = engShortMonthIndex;
+									}
+								}
+							}
+						}
+
+						// Process query month
+						const queryMonthLower = month.toLowerCase();
+						let queryMonth = -1;
+
+						// Try direct number parsing first (0-11)
+						const monthNum = Number.parseInt(month);
+						if (!Number.isNaN(monthNum) && monthNum >= 0 && monthNum <= 11) {
+							queryMonth = monthNum;
+						} else {
+							// Try to match with month names
+							for (let i = 0; i < 12; i++) {
+								if (
+									indonesianMonthNames[i].includes(queryMonthLower) ||
+									queryMonthLower.includes(indonesianMonthNames[i]) ||
+									indonesianShortMonthNames[i].includes(queryMonthLower) ||
+									queryMonthLower.includes(indonesianShortMonthNames[i]) ||
+									englishMonthNames[i].includes(queryMonthLower) ||
+									queryMonthLower.includes(englishMonthNames[i]) ||
+									englishShortMonthNames[i].includes(queryMonthLower) ||
+									queryMonthLower.includes(englishShortMonthNames[i])
+								) {
+									queryMonth = i;
+									break;
+								}
+							}
+						}
+
+						// Compare months if both were successfully parsed
+						if (eventMonth !== -1 && queryMonth !== -1) {
+							monthMatch = eventMonth === queryMonth;
+						} else {
+							// If parsing failed, fall back to string comparison
+							monthMatch =
+								eventMonthStr.includes(queryMonthLower) ||
+								queryMonthLower.includes(eventMonthStr);
+						}
+					}
+				} catch (e) {
+					// If date parsing fails, fall back to false for this entry
+					monthMatch = false;
+				}
 			}
 
 			return cityMatch && monthMatch;
