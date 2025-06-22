@@ -7,7 +7,8 @@
     "dev": "nodemon api/index.ts",
     "up-latest": "pnpm up --latest",
     "sst:dev": "sst dev",
-    "sst:deploy": "sst deploy --stage production"
+    "sst:deploy": "sst deploy --stage production",
+    "sst:secrets:list": "sst secret list --stage production"
   },
   "keywords": [],
   "author": "",
