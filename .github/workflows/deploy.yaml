@@ -22,3 +22,6 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - run: pnpm sst:deploy
+        with:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          KEY: ${{ secrets.KEY }}
