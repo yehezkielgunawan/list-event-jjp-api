@@ -1,6 +1,7 @@
 import express, { type Express, type Request, type Response } from "express";
 import { google } from "googleapis";
 import dotenv from "dotenv";
+import serverless from "serverless-http";
 
 const app: Express = express();
 const port = 3000;
@@ -217,8 +218,4 @@ app.get("/cities", async (req: Request, res: Response) => {
 	res.status(200).send(uniqueCities);
 });
 
-app.listen(port, () => {
-	console.log("Server is running now!");
-});
-
-module.exports = app;
+export const handler = serverless(app);
