@@ -10,6 +10,14 @@ declare module "sst" {
       "type": "sst.aws.Function"
       "url": string
     }
+    "KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "SPREADSHEET_ID": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
   }
 }
 /// <reference path="sst-env.d.ts" />

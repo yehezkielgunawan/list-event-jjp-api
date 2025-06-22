@@ -10,12 +10,16 @@ export default $config({
     };
   },
   async run() {
+    const SPREADSHEET_ID = new sst.Secret("SPREADSHEET_ID");
+    const KEY = new sst.Secret("KEY");
+
+
     new sst.aws.Function("Api", {
       handler: "api/index.handler",
       url: true,
       environment: {
-        KEY: process.env.KEY!,
-        SPREADSHEET_ID: process.env.SPREADSHEET_ID!,
+        SPREADSHEET_ID: SPREADSHEET_ID.value,
+        KEY: KEY.value,
       },
     });
   }
