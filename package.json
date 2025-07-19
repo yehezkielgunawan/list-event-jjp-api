@@ -5,10 +5,7 @@
   "main": "api/index.ts",
   "scripts": {
     "dev": "nodemon api/index.ts",
-    "up-latest": "pnpm up --latest",
-    "sst:dev": "sst dev",
-    "sst:deploy": "sst deploy --stage production",
-    "sst:secrets:list": "sst secret list --stage production"
+    "up-latest": "pnpm up --latest"
   },
   "keywords": [],
   "author": "",
@@ -17,8 +14,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "googleapis": "^150.0.1",
-    "serverless-http": "^3.2.0",
-    "sst": "3.17.6"
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.150",
